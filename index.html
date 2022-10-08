@@ -151,15 +151,7 @@
 					csvContent += latinSquareToCSV[i][j] + ",";
 				}
 				csvContent = csvContent.slice(0, -1) + "\n";
-			}
-			
-			console.log("csvContent"); 
-			console.log(conditions); 
-			console.log(csvContent);
-			console.log("latinSquareToCSV");
-			console.table(latinSquareToCSV);
-			console.log("latinModel");
-			console.table(latinModel);
+			} 
 		} 
 		
 		function generateModel() {
@@ -239,9 +231,7 @@
 			}
 			
 			$("#square-size-input").change(updateSquareSize); 
-			$("#square-size-input").val(6).trigger("change"); 
-			
-			
+			$("#square-size-input").val(6).trigger("change");  
 		});
 		
 	</script>
