@@ -75,7 +75,7 @@
 
 			<div class="row mt-2 mb-2 ">
 				<div class="col-md-12">
-					<a href="javascript:downloadCSV();">Download .csv</a>
+					Note: You can quickly insert your conditions using copy-paste (separated by lines) | <a href="javascript:downloadCSV();">Download .csv</a>
 				</div>
 			</div>
 			<hr class="mt-2 mb-2"/>
@@ -164,6 +164,8 @@
 			} 
 		}
 		
+ 
+		
 		function createTable() { 
 			// Fill the first row "header"
 			var thead_innerHTML = "<tr><th class='mt-2 mb-2' style='height:30px; text-align:center; width: 100px;' scope='col'><strong>Subject</strong></th>";
@@ -183,7 +185,7 @@
 				for (var j = 0; j < conditions.length; j++) {
 					tbody_innerHTML +=  "<td id=" + i +"-" + latinModel[i][j] + ">"; 
 					if (i == 0) {
-						tbody_innerHTML += "<input class='align-middle' style='text-align:center; height:30px; width: 100%; class='form-control' type='text' onChange='updateTable(this.value," + i + "," + latinModel[i][j] + ");' value='" + conditions[latinModel[i][j]] + "' id='condition-input-" + latinModel[i][j] + "''></td>"
+						tbody_innerHTML += "<input class='align-middle paste-me' style='text-align:center; height:30px; width: 100%; class='form-control' type='text' onChange='updateTable(this.value," + i + "," + latinModel[i][j] + ");' value='" + conditions[latinModel[i][j]] + "' id='condition-input-" + latinModel[i][j] + "''></td>"
 					} else {
 						tbody_innerHTML += conditions[latinModel[i][j]] + "</td>";
 					}
@@ -192,6 +194,34 @@
 				tbody_innerHTML += "</tr>";
 			} 
 			$("#latin-square-body").html(tbody_innerHTML); 
+			
+			$('input[type=text]').bind("paste", function(e){  
+				 e.preventDefault();
+				e.stopPropagation();
+				if (e.target.type === "text") {
+					var data = e.originalEvent.clipboardData.getData('text'); 
+					var lines = data.split('\n');
+					
+					$('input[type=text]').each(function(i, item){
+						
+						$(item).val(lines[i].trim()).trigger("change");   
+						console.log(lines[i]);  
+					}); 
+				}
+				
+				/*if(data1.kind == 'string' || data1.type == 'text/plain' || data1.type === 'text'){
+					e.stopPropagation();
+					data1.getAsString(function(s){
+						s = s.split('\n');
+						if(s.length > 0){
+							$('.paste-me').each(function(i, item){
+								$(item).val(s[i]);
+								console.log(s[i]);
+							}); 
+						}
+					});
+				}*/
+			});
 		}
 		
 		function download(filename, text) {
@@ -207,7 +237,7 @@
 		function downloadCSV() {
 			download("latin_square.csv", csvContent);
 		}
-		
+		 
 		$(document).ready(function() {  
 			function setInitialConditions() {
 				var squareSize = $("#square-size-input").val();  
@@ -219,7 +249,7 @@
 				} 
 				conditions = result;
 			} 
-			
+			 
 			function updateSquareSize() { 
 				var squareSize = $("#square-size-input").val();    
 				setInitialConditions();
@@ -229,6 +259,23 @@
 				generateModel()
 				createTable();
 			}
+			
+			/*$('.paste-me').on('paste', function(e){ 
+				var data1 = window.clipboardData.getData("text");
+				console.log(data1);
+				if(data1.kind == 'string' || data1.type == 'text/plain' || data1.type === 'text'){
+					e.stopPropagation();
+					data1.getAsString(function(s){
+						s = s.split('\n');
+						if(s.length > 0){
+							$('input[type=text]').each(function(i, item){
+								$(item).val(s[i]);
+								console.log(s[i]);
+							}); 
+						}
+					});
+				}
+			});*/
 			
 			$("#square-size-input").change(updateSquareSize); 
 			$("#square-size-input").val(6).trigger("change");  
