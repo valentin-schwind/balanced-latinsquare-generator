@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="iso-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Valentin Schwind">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!-- Bootstrap CSS --> 
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-table.min.css" />  
+	<link rel="stylesheet" href="css/bootstrap-icons.css">
+	<link rel="stylesheet" href="css/style.css" /> 
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<meta property="og:site_name" content="Methods and Measures">	
+	<title>Methods and Measures in HCI</title>	
+</head>
+ <body class="transparent">
+	<script src="js/countryList.js"></script>
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
+	<script src="js/jquery-validation/jquery.validate.js"></script>	 
+	<script src="js/popper.min.js" ></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/seedrandom.min.js"></script> 
+	<script src="js/html2pdf.bundle.min.js"></script>  
+    
+	<div id="mainFrame" class="vertical-center">
+		<div class="whiteBox container rounded container mt-4 container-fluid">	
+			<div class="row">
+				<div class="col mt-1 mb-1 ">
+					<div class="float-end"><a href="https://hci-studies.org/"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo"></a></div>
+				</div>
+			</div>
+			<div class="row mt-1 mb-1 ">
+				<div class="col-md-12">
+					<h2 >Balanced Latin Square Generator
+					</h2>
+				</div>
+			</div>
+			<hr class="mt-2 mb-2"/>
+			<p>
+				A <a href="https://en.wikipedia.org/wiki/Latin_square">Latin square</a> is <span class="font-italic">"an n &times;  n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>.
+			</p>
+			<p>
+				Latin squares are useful to reduce <span class="font-weight-bold">order-effects</span> when designing experiments with multiple conditions. For example, in an experiment comparing a technique A vs B vs C, if all participants test A first, then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, if we order conditions based on a randomly generated latin square, we could obtain the following order:
+			</p>
+			<hr class="mt-2 mb-2"/>
+			<div class="form-group row mt-2 mb-2 ">
+				<label for="square-size-input" class="col-4 col-form-label">Number of conditions / Square
+					size</label>
+				<div class="col-2">
+					<input class="form-control" type="number" min="2" value="4" id="square-size-input">
+				</div>
+				<div class="col-6">
+					<label id="odd-size-warning" for="square-size-input" class="text-danger col-form-label">Odd sizes
+						require twice as many rows to be balanced</label>
+				</div>
+			</div>
+			<hr class="mt-2 mb-2"/>
+			<div class="row mt-2 mb-2 ">
+				<div class="col-md-12">
+					<table id="latin-square-table" style="text-align: center;"
+						class="table table-hover table-bordered">
+						<thead id="latin-square-head">
+						</thead>
+						<tbody id="latin-square-body">
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row mt-2 mb-2 ">
+				<div class="col-md-12">
+					<a href="javascript:downloadCSV();">Download .csv</a>
+				</div>
+			</div>
+			<hr class="mt-2 mb-2"/>
+			<div class="row mt-2 mb-2 ">
+				<div class="col-md-12">  
+					<p>
+						Balanced Latin Squares are special cases of Latin Squares which remove immediate carry-over effects: A condition will precede another exactly once (or twice, if the number of conditions is odd). This page is a simple generator of balanced latin square. The generator uses the method that James V. Bradley proposed and mathematically proved its reliability [1].
+					</p>
+					<p>
+						<i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i>
+					</p>
+				</div>
+			</div>  
+			<hr class="mt-2 mb-2"/>
+			<div class="row mt-2 mb-2 itemRow" id="githublink">
+				<div class="col" > 
+					Original <a href="https://cs.uwaterloo.ca/~dmasson/tools/latin_square/" target="_blank">tool</a> and source code by Damien Masson <a href="https://cs.uwaterloo.ca/~dmasson/" target="_blank">https://cs.uwaterloo.ca/~dmasson/</a>
+				</div>
+			</div> 
+		</div> 
+	</div>
+ 
+	<script>  
+		var conditions = [];
+		var csvContent = "";
+		var latinModel = [];
+		
+		function balancedLatinSquare(array, participantId) {
+			result = [];
+			// Based on "Bradley, J. V. Complete counterbalancing of immediate sequential effects in a Latin square design. J. Amer. Statist. Ass.,.1958, 53, 525-528. "
+			for (var i = 0, j = 0, h = 0; i < array.length; ++i) {
+				var val = 0;
+				if (i < 2 || i % 2 != 0) {
+					val = j++;
+				} else {
+					val = array.length - h - 1;
+					++h;
+				}
+
+				var idx = (val + participantId) % array.length;
+				result.push(array[idx]);
+			}
+
+			if (array.length % 2 != 0 && participantId % 2 != 0) {
+				result = result.reverse();
+			}
+
+			return result;
+		}
+		
+		const deepCopy = (arr) => {
+			let copy = [];
+			arr.forEach(elem => {
+				if(Array.isArray(elem)){copy.push(deepCopy(elem))}else{if (typeof elem === 'object') { copy.push(deepCopyObject(elem)) } else { copy.push(elem) } }
+			})
+			return copy;
+		}
+		
+		function updateTable(_text,_i,_j) {
+			csvContent = "Subject," + Array.from({length: conditions.length}, (_, i) => i + 1).join(",") + "\n";
+			
+			const latinSquareToCSV = deepCopy(latinModel);  
+  
+			conditions[_j] = _text;    
+			for (var i = 0; i < latinModel.length; i++) { 
+				if(i != 0) $("#" + i + "-" + _j).html(_text); 
+			}   
+			
+			for (var i = 0; i < latinModel.length; i++) {
+				csvContent +=  ( i + 1 ) + ",";
+				for (var j = 0; j < latinModel[i].length; j++) {
+					latinSquareToCSV[i][j] = conditions[latinSquareToCSV[i][j]];
+					csvContent += latinSquareToCSV[i][j] + ",";
+				}
+				csvContent = csvContent.slice(0, -1) + "\n";
+			}
+			
+			console.log("csvContent"); 
+			console.log(conditions); 
+			console.log(csvContent);
+			console.log("latinSquareToCSV");
+			console.table(latinSquareToCSV);
+			console.log("latinModel");
+			console.table(latinModel);
+		} 
+		
+		function generateModel() {
+			latinModel = [];
+		
+			var nb_rows = conditions.length;
+			if (conditions.length % 2 != 0) nb_rows *= 2; 
+			for (var i = 0; i < nb_rows; i++) {
+				latinModel.push(balancedLatinSquare(Array.from(Array(conditions.length).keys()),i));
+			} 
+		}
+		
+		function createTable() { 
+			// Fill the first row "header"
+			var thead_innerHTML = "<tr><th class='mt-2 mb-2' style='height:30px; text-align:center; width: 100px;' scope='col'><strong>Subject</strong></th>";
+
+			csvContent = "Subject," + Array.from({length: conditions.length}, (_, i) => i + 1).join(",") + "\n";
+			for (var i = 0; i < conditions.length; ++i) {
+				thead_innerHTML += "<th class='mt-2 mb-2' style='height: 30px; text-align:center;' scope='col'>" + (i + 1) + "</th>";
+			} 
+			
+			thead_innerHTML += "</tr>";
+			$("#latin-square-head").html(thead_innerHTML); 
+			 
+			var tbody_innerHTML = "";
+			 
+			for (var i = 0; i < latinModel.length; i++) {
+				tbody_innerHTML += "<tr><th class='mt-2 mb-2 align-middle' style='height:30px; text-align:center;' scope='row'><strong>#" + (i + 1) + "</strong></th>";
+				for (var j = 0; j < conditions.length; j++) {
+					tbody_innerHTML +=  "<td id=" + i +"-" + latinModel[i][j] + ">"; 
+					if (i == 0) {
+						tbody_innerHTML += "<input class='align-middle' style='text-align:center; height:30px; width: 100%; class='form-control' type='text' onChange='updateTable(this.value," + i + "," + latinModel[i][j] + ");' value='" + conditions[latinModel[i][j]] + "' id='condition-input-" + latinModel[i][j] + "''></td>"
+					} else {
+						tbody_innerHTML += conditions[latinModel[i][j]] + "</td>";
+					}
+				}  
+				//csvContent += balancedLatinSquare(conditions,i).join(',') + "\n";
+				tbody_innerHTML += "</tr>";
+			} 
+			$("#latin-square-body").html(tbody_innerHTML); 
+		}
+		
+		function download(filename, text) {
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+			element.setAttribute('download', filename); 
+			element.style.display = 'none';
+			document.body.appendChild(element); 
+			element.click(); 
+			document.body.removeChild(element);
+		}
+		
+		function downloadCSV() {
+			download("latin_square.csv", csvContent);
+		}
+		
+		$(document).ready(function() {  
+			function setInitialConditions() {
+				var squareSize = $("#square-size-input").val();  
+				var useLetters = squareSize <= 26; 
+				var result = [];
+				for (var i = 0; i < squareSize; ++i) {
+					var condition = useLetters ? String.fromCharCode('A'.charCodeAt(0) + i) : "" + (i + 1);
+					result.push(condition);
+				} 
+				conditions = result;
+			} 
+			
+			function updateSquareSize() { 
+				var squareSize = $("#square-size-input").val();    
+				setInitialConditions();
+				$("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block"); 
+				console.log(squareSize);   
+				console.log(conditions);   
+				generateModel()
+				createTable();
+			}
+			
+			$("#square-size-input").change(updateSquareSize); 
+			$("#square-size-input").val(6).trigger("change"); 
+			
+			
+		});
+		
+	</script>
+</body>
+</html>
