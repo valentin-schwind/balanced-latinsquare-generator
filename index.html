@@ -46,7 +46,7 @@
 				A <a href="https://en.wikipedia.org/wiki/Latin_square">Latin square</a> is <span class="font-italic">"an n &times;  n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>.
 			</p>
 			<p>
-				Latin squares are useful to reduce <span class="font-weight-bold">order-effects</span> when designing experiments with multiple conditions. For example, in an experiment comparing a technique A vs B vs C, if all participants test A first, then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, if we order conditions based on a randomly generated latin square, we could obtain the following order:
+				Latin squares are useful to reduce order-effects when designing empirical experiments with multiple conditions. For example, in an experimental design comparing a prototype A vs B vs C, if all participants test A first, then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, if we order conditions based on a Latin square.
 			</p>
 			<hr class="mt-2 mb-2"/>
 			<div class="form-group row mt-2 mb-2 ">
@@ -82,7 +82,7 @@
 			<div class="row mt-2 mb-2 ">
 				<div class="col-md-12">  
 					<p>
-						Balanced Latin Squares are special cases of Latin Squares which remove immediate carry-over effects: A condition will precede another exactly once (or twice, if the number of conditions is odd). This page is a simple generator of balanced latin square. The generator uses the method that James V. Bradley proposed and mathematically proved its reliability [1].
+						A condition will precede another exactly once (or twice, if the number of conditions is odd). This page uses the method that James V. Bradley proposed and mathematically proved [1].
 					</p>
 					<p>
 						<i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i>
@@ -192,24 +192,23 @@
 			$("#latin-square-body").html(tbody_innerHTML); 
 			 
 			for (var i = 0; i < conditions.length; i++) {
-				$('#condition-input-' + i).on("keyup", {i:i}, function(e){  
-					console.log("hello wordl " + e.data.i);
+				$('#condition-input-' + i).on("keyup", {i:i}, function(e){   
 					updateTable($(this).val(), 0, latinModel[0][e.data.i]);
 				}); 
-				
-				$('#condition-input-' + i).on("paste", function(e){  
-					e.preventDefault();
-					e.stopPropagation();
-					if (e.target.type === "text") {
-						var data = e.originalEvent.clipboardData.getData('text'); 
-						var lines = data.split('\n');
-						
-						$('input[type=text]').each(function(i, item){ 
-							$(item).val(lines[i].trim()).trigger("change");    
-						}); 
-					} 
-				});
 			}  
+				
+			$('input[type=text]').on("paste", function(e){  
+				e.preventDefault();
+				e.stopPropagation();
+				if (e.target.type === "text") {
+					var data = e.originalEvent.clipboardData.getData('text'); 
+					var lines = data.split('\n');
+					
+					$('input[type=text]').each(function(i, item){ 
+						$(item).val(lines[i].trim()).trigger("keyup");    
+					}); 
+				} 
+			});
 		}
 		
 		function download(filename, text) {
@@ -241,9 +240,7 @@
 			function updateSquareSize() { 
 				var squareSize = $("#square-size-input").val();    
 				setInitialConditions();
-				$("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block"); 
-				console.log(squareSize);   
-				console.log(conditions);   
+				$("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block");   
 				generateModel()
 				createTable();
 			} 
