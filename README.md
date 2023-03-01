@@ -1,4 +1,4 @@
-# Balanced Square Generator
+# Balanced Latin Square Generator
 
 A Latin square generator for experimental designs. Latin squares are useful to reduce order-effects when designing experiments with multiple conditions.   The generator uses the method that James V. Bradley proposed and mathematically proved its reliability [1].
 
