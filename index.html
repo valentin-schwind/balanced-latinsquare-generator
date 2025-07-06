@@ -1,254 +1,272 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<!-- Required meta tags -->
-	<meta charset="iso-8859-1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="Valentin Schwind">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Bootstrap CSS --> 
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-table.min.css" />  
-	<link rel="stylesheet" href="css/bootstrap-icons.css">
-	<link rel="stylesheet" href="css/style.css" /> 
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<meta property="og:site_name" content="Methods and Measures">	
-	<title>Balanced Latin Square Generator</title>	
-</head>
- <body class="transparent">
-	<script src="js/countryList.js"></script>
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/jquery-ui.js"></script>
-	<script src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
-	<script src="js/jquery-validation/jquery.validate.js"></script>	 
-	<script src="js/popper.min.js" ></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/seedrandom.min.js"></script> 
-	<script src="js/html2pdf.bundle.min.js"></script>  
-    
-	<div id="mainFrame" class="vertical-center">
-		<div class="whiteBox container rounded container mt-4 container-fluid">	
-			<div class="row">
-				<div class="col mt-1 mb-1 ">
-					<div class="float-end"><a href="https://hci-studies.org/"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo"></a></div>
-				</div>
-			</div>
-			<div class="row mt-1 mb-1 ">
-				<div class="col-md-12">
-					<h2 >Balanced Latin Square Generator
-					</h2>
-				</div>
-			</div>
-			<hr class="mt-2 mb-2"/>
-			<p>
-				A <a href="https://en.wikipedia.org/wiki/Latin_square" target="_blank">Latin square</a> is <span class="font-italic">"an n &times;  n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>.
-			</p>
-			<p>
-				Latin squares are useful to reduce order-effects when designing empirical experiments with multiple conditions. For example, in an experimental design comparing a prototype A vs B vs C, if all participants test A first, then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, we can order conditions based on a Latin square like this:
-			</p>
-			<hr class="mt-2 mb-2"/>
-			<div class="form-group row mt-2 mb-2 ">
-				<label for="square-size-input" class="col-4 col-form-label">Number of conditions / Square
-					size</label>
-				<div class="col-2">
-					<input class="form-control" type="number" min="2" value="4" id="square-size-input">
-				</div>
-				<div class="col-6">
-					<label id="odd-size-warning" for="square-size-input" class="text-danger col-form-label">Odd sizes
-						require twice as many rows to be balanced</label>
-				</div>
-			</div>
-			<hr class="mt-2 mb-2"/>
-			<div class="row mt-2 mb-2 ">
-				<div class="col-md-12">
-					<table id="latin-square-table" style="text-align: center;"
-						class="table table-hover table-bordered">
-						<thead id="latin-square-head">
-						</thead>
-						<tbody id="latin-square-body">
-						</tbody>
-					</table>
-				</div>
-			</div>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="iso-8859-1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="Valentin Schwind" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/bootstrap-table.min.css" />
+        <link rel="stylesheet" href="css/bootstrap-icons.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <meta property="og:site_name" content="Methods and Measures" />
+        <title>Balanced Latin Square Generator</title>
+    </head>
+    <body class="transparent">
+        <script src="js/countryList.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/jquery-ui.js"></script>
+        <script src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
+        <script src="js/jquery-validation/jquery.validate.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/seedrandom.min.js"></script>
+        <script src="js/html2pdf.bundle.min.js"></script>
 
-			<div class="row mt-2 mb-2 ">
-				<div class="col-md-12">
-					Note: You can quickly insert your conditions using copy-paste (separated by lines) | <a href="javascript:downloadCSV();">Download .csv</a>
-				</div>
-			</div>
-			<hr class="mt-2 mb-2"/>
-			<div class="row mt-2 mb-2 ">
-				<div class="col-md-12">  
-					<p>
-						A condition will precede another exactly once (or twice, if the number of conditions is odd). This page uses the method that James V. Bradley proposed and mathematically proved [1].
-					</p>
-					<p>
-						<i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i>
-					</p>
-				</div>
-			</div>  
-			<hr class="mt-2 mb-2"/>
-			<div class="row mt-2 mb-2 itemRow" id="githublink">
-				<div class="col" > 
-					<a href="https://github.com/valentin-schwind/balanced-latinsquare-generator.git" target="_blank">Source code at github</a>, Original <a href="https://cs.uwaterloo.ca/~dmasson/tools/latin_square/" target="_blank">tool</a> and source code by Damien Masson <a href="https://cs.uwaterloo.ca/~dmasson/" target="_blank">https://cs.uwaterloo.ca/~dmasson/</a>
-				</div>
-			</div> 
-		</div> 
-	</div>
- 
-	<script>  
-		var conditions = [];
-		var csvContent = "";
-		var latinModel = [];
-		
-		function balancedLatinSquare(array, participantId) {
-			result = [];
-			// Based on "Bradley, J. V. Complete counterbalancing of immediate sequential effects in a Latin square design. J. Amer. Statist. Ass.,.1958, 53, 525-528. "
-			for (var i = 0, j = 0, h = 0; i < array.length; ++i) {
-				var val = 0;
-				if (i < 2 || i % 2 != 0) {
-					val = j++;
-				} else {
-					val = array.length - h - 1;
-					++h;
-				}
+        <div id="mainFrame" class="vertical-center">
+            <div class="whiteBox container rounded container mt-4 container-fluid">
+                <div class="row">
+                    <div class="col mt-1 mb-1">
+                        <div class="float-end">
+                            <a href="https://hci-studies.org/"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo" /></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1 mb-1">
+                    <div class="col-md-12">
+                        <h2>Balanced Latin Square Generator</h2>
+                    </div>
+                </div>
+                <hr class="mt-2 mb-2" />
+                <p>
+                    A <a href="https://en.wikipedia.org/wiki/Latin_square" target="_blank">Latin square</a> is
+                    <span class="font-italic">"an n &times; n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>.
+                </p>
+                <p>
+                    Latin squares are useful to reduce order-effects when designing empirical experiments with multiple conditions. For example, in an experimental design comparing a prototype A vs B vs C, if all participants test A first,
+                    then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, we can order conditions based on a Latin square like this:
+                </p>
+                <hr class="mt-2 mb-2" />
+                <div class="form-group row mt-2 mb-2">
+                    <label for="square-size-input" class="col-4 col-form-label">Number of conditions / Square size</label>
+                    <div class="col-2">
+                        <input class="form-control" type="number" min="2" value="4" id="square-size-input" />
+                    </div>
+                    <div class="col-6">
+                        <label id="odd-size-warning" for="square-size-input" class="text-danger col-form-label">Odd sizes require twice as many rows to be balanced</label>
+                    </div>
+                </div>
+                <hr class="mt-2 mb-2" />
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-12">
+                        <table id="latin-square-table" style="text-align: center" class="table table-hover table-bordered">
+                            <thead id="latin-square-head"></thead>
+                            <tbody id="latin-square-body"></tbody>
+                        </table>
+                    </div>
+                </div>
 
-				var idx = (val + participantId) % array.length;
-				result.push(array[idx]);
-			}
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-12">Note: You can quickly insert your conditions using copy-paste (separated by lines) | <a href="javascript:downloadCSV();">Download .csv</a></div>
+                </div>
+                <hr class="mt-2 mb-2" />
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-12">
+                        <p>A condition will precede another exactly once (or twice, if the number of conditions is odd). This page uses the method that James V. Bradley proposed and mathematically proved [1].</p>
+                        <p>
+                            <i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i>
+                        </p>
+                    </div>
+                </div>
+                <hr class="mt-2 mb-2" />
+                <div class="row mt-2 mb-2 itemRow" id="githublink">
+                    <div class="col">
+                        <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank">Source code at github</a>, Original <a href="https://cs.uwaterloo.ca/~dmasson/tools/latin_square/" target="_blank">tool</a> and
+                        source code by Damien Masson <a href="https://cs.uwaterloo.ca/~dmasson/" target="_blank">https://cs.uwaterloo.ca/~dmasson/</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-2">
+                        <p>
+                            <a href="https://valentin-schwind.de">Prof. Dr. Valentin Schwind</a>. University of Applied Sciences Frankfurt. No liability for external links, correctness, completeness and up-todateness of any content. Site
+                            visits might result in storing of anonymized data (date, time, page viewed). Utilization at the own risk of the user. Data can be stored on the computers to facilitate the user's website access. Contribute
+                            <a href="https://github.com/stars/valentin-schwind/lists/hci-user-studies-toolkit">here</a>.
+                        </p>
+                        <p>
+                            <strong>Find/cite the publication of the toolkit here: </strong><br /><code
+                                >Valentin Schwind, Stefan Resch, and Jessica Sehrt. 2023. The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction. In
+                                Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA '23), April 23-28, 2023, Hamburg, Germany. ACM, New York, NY, USA, 7 pages.
+                                <a href="https://doi.org/10.1145/3544549.3585890" target="_blank">https://doi.org/10.1145/3544549.3585890</a></code
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			if (array.length % 2 != 0 && participantId % 2 != 0) {
-				result = result.reverse();
-			}
+        <script>
+            var conditions = [];
+            var latinModel = [];
 
-			return result;
-		}
-		
-		const deepCopy = (arr) => {
-			let copy = [];
-			arr.forEach(elem => {
-				if(Array.isArray(elem)){copy.push(deepCopy(elem))}else{if (typeof elem === 'object') { copy.push(deepCopyObject(elem)) } else { copy.push(elem) } }
-			})
-			return copy;
-		}
-		
-		function updateTable(_text,_i,_j) {
-			csvContent = "Subject," + Array.from({length: conditions.length}, (_, i) => i + 1).join(",") + "\n";
-			
-			const latinSquareToCSV = deepCopy(latinModel);  
-  
-			conditions[_j] = _text;    
-			for (var i = 0; i < latinModel.length; i++) { 
-				if(i != 0) $("#" + i + "-" + _j).html(_text); 
-			}   
-			
-			for (var i = 0; i < latinModel.length; i++) {
-				csvContent +=  ( i + 1 ) + ",";
-				for (var j = 0; j < latinModel[i].length; j++) {
-					latinSquareToCSV[i][j] = conditions[latinSquareToCSV[i][j]];
-					csvContent += latinSquareToCSV[i][j] + ",";
-				}
-				csvContent = csvContent.slice(0, -1) + "\n";
-			} 
-		} 
-		
-		function generateModel() {
-			latinModel = [];
-		
-			var nb_rows = conditions.length;
-			if (conditions.length % 2 != 0) nb_rows *= 2; 
-			for (var i = 0; i < nb_rows; i++) {
-				latinModel.push(balancedLatinSquare(Array.from(Array(conditions.length).keys()),i));
-			} 
-		}  
-		
-		function createTable() {  
-			var thead_innerHTML = "<tr><th class='mt-2 mb-2' style='height:30px; text-align:center; width: 100px;' scope='col'><strong>Subject</strong></th>";
+            // Generate a balanced Latin square for a given array and participant index
+            function balancedLatinSquare(array, participantId) {
+                var result = [];
+                var j = 0,
+                    h = 0;
+                for (var i = 0; i < array.length; ++i) {
+                    var val = 0;
+                    if (i < 2 || i % 2 != 0) {
+                        val = j++;
+                    } else {
+                        val = array.length - h - 1;
+                        ++h;
+                    }
+                    var idx = (val + participantId) % array.length;
+                    result.push(array[idx]);
+                }
+                // For odd-sized squares, reverse every second row to ensure balancing
+                if (array.length % 2 != 0 && participantId % 2 != 0) {
+                    result = result.reverse();
+                }
+                return result;
+            }
 
-			csvContent = "Subject," + Array.from({length: conditions.length}, (_, i) => i + 1).join(",") + "\n";
-			for (var i = 0; i < conditions.length; ++i) {
-				thead_innerHTML += "<th class='mt-2 mb-2' style='height: 30px; text-align:center;' scope='col'>" + (i + 1) + "</th>";
-			} 
-			
-			thead_innerHTML += "</tr>";
-			$("#latin-square-head").html(thead_innerHTML); 
-			 
-			var tbody_innerHTML = "";
-			 
-			for (var i = 0; i < latinModel.length; i++) {
-				tbody_innerHTML += "<tr><th class='mt-2 mb-2 align-middle' style='height:30px; text-align:center;' scope='row'><strong>#" + (i + 1) + "</strong></th>";
-				for (var j = 0; j < conditions.length; j++) {
-					tbody_innerHTML +=  "<td id=" + i +"-" + latinModel[i][j] + ">"; 
-					if (i == 0) {
-						tbody_innerHTML += "<input class='align-middle paste-me' style='text-align:center; height:30px; width: 100%; class='form-control' type='text' value='" + conditions[latinModel[i][j]] + "' id='condition-input-" + latinModel[i][j] + "''></td>"
-					} else {
-						tbody_innerHTML += conditions[latinModel[i][j]] + "</td>";
-					}
-				}   
-				tbody_innerHTML += "</tr>";
-			} 
-			$("#latin-square-body").html(tbody_innerHTML); 
-			 
-			for (var i = 0; i < conditions.length; i++) {
-				$('#condition-input-' + i).on("keyup", {i:i}, function(e){   
-					updateTable($(this).val(), 0, latinModel[0][e.data.i]);
-				}); 
-			}  
-				
-			$('input[type=text]').on("paste", function(e){  
-				e.preventDefault();
-				e.stopPropagation();
-				if (e.target.type === "text") {
-					var data = e.originalEvent.clipboardData.getData('text'); 
-					var lines = data.split('\n');
-					
-					$('input[type=text]').each(function(i, item){ 
-						$(item).val(lines[i].trim()).trigger("keyup");    
-					}); 
-				} 
-			});
-		}
-		
-		function download(filename, text) {
-			var element = document.createElement('a');
-			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-			element.setAttribute('download', filename); 
-			element.style.display = 'none';
-			document.body.appendChild(element); 
-			element.click(); 
-			document.body.removeChild(element);
-		}
-		
-		function downloadCSV() {
-			download("latin_square.csv", csvContent);
-		}
-		 
-		$(document).ready(function() {  
-			function setInitialConditions() {
-				var squareSize = $("#square-size-input").val();  
-				var useLetters = squareSize <= 26; 
-				var result = [];
-				for (var i = 0; i < squareSize; ++i) {
-					var condition = useLetters ? String.fromCharCode('A'.charCodeAt(0) + i) : "" + (i + 1);
-					result.push(condition);
-				} 
-				conditions = result;
-			} 
-			 
-			function updateSquareSize() { 
-				var squareSize = $("#square-size-input").val();    
-				setInitialConditions();
-				$("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block");   
-				generateModel()
-				createTable();
-			} 
-			
-			$("#square-size-input").change(updateSquareSize); 
-			$("#square-size-input").val(6).trigger("change");  
-		});
-		
-	</script>
-</body>
+            // Build the full Latin square model (array of arrays of indices)
+            function generateModel() {
+                latinModel = [];
+                var n = conditions.length;
+                var rows = n % 2 == 0 ? n : n * 2;
+                for (var i = 0; i < rows; i++) {
+                    latinModel.push(balancedLatinSquare([...Array(n).keys()], i));
+                }
+            }
+
+            // Build the HTML table and input fields with unique IDs per cell
+            function createTable() {
+                var thead = "<tr><th style='height:30px; text-align:center; width:100px;' scope='col'><strong>Subject</strong></th>";
+                for (var i = 0; i < conditions.length; ++i) {
+                    thead += "<th style='height:30px; text-align:center;' scope='col'>" + (i + 1) + "</th>";
+                }
+                thead += "</tr>";
+                $("#latin-square-head").html(thead);
+
+                var tbody = "";
+                for (var i = 0; i < latinModel.length; i++) {
+                    tbody += "<tr><th class='align-middle' style='height:30px; text-align:center;' scope='row'><strong>#" + (i + 1) + "</strong></th>";
+                    for (var j = 0; j < conditions.length; j++) {
+                        var condIdx = latinModel[i][j];
+                        var cellId = "cell-" + i + "-" + j; // Unique cell id
+                        if (i == 0) {
+                            // First row: editable input fields for each condition
+                            tbody += "<td><input class='align-middle paste-me form-control' style='text-align:center; height:30px; width:100%;' type='text' value='" + conditions[condIdx] + "' id='condition-input-" + condIdx + "'></td>";
+                        } else {
+                            // Other rows: just display the current condition label
+                            tbody += "<td id='" + cellId + "'>" + conditions[condIdx] + "</td>";
+                        }
+                    }
+                    tbody += "</tr>";
+                }
+                $("#latin-square-body").html(tbody);
+
+                // Add input event handlers for each editable condition input (first row)
+                for (var i = 0; i < conditions.length; i++) {
+                    $("#condition-input-" + i)
+                        .off("keyup")
+                        .on("keyup", function (e) {
+                            var idx = parseInt(this.id.replace("condition-input-", ""));
+                            updateCondition(idx, $(this).val());
+                        });
+                }
+
+                // Allow pasting multiple condition labels at once (newline-separated)
+                $("input[type=text]")
+                    .off("paste")
+                    .on("paste", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        var data = (e.originalEvent || e).clipboardData.getData("text");
+                        var lines = data.split(/\r?\n/);
+                        $("input[type=text]").each(function (i, item) {
+                            if (i < lines.length) {
+                                $(item).val(lines[i].trim()).trigger("keyup");
+                            }
+                        });
+                    });
+            }
+
+            // Update all table cells (except first row) that display the given condition index
+            function updateCondition(idx, value) {
+                conditions[idx] = value;
+                for (var i = 1; i < latinModel.length; i++) {
+                    for (var j = 0; j < conditions.length; j++) {
+                        if (latinModel[i][j] === idx) {
+                            var cellId = "cell-" + i + "-" + j;
+                            $("#" + cellId).html(value);
+                        }
+                    }
+                }
+            }
+
+            // Always build CSV from the current model and condition labels (never reuse old data)
+            function generateCSV() {
+                var csv = "Subject," + Array.from({ length: conditions.length }, (_, i) => i + 1).join(",") + "\n";
+                for (var i = 0; i < latinModel.length; i++) {
+                    csv += i + 1 + ",";
+                    for (var j = 0; j < latinModel[i].length; j++) {
+                        csv += (conditions[latinModel[i][j]] !== undefined ? conditions[latinModel[i][j]] : "") + ",";
+                    }
+                    csv = csv.slice(0, -1) + "\n";
+                }
+                return csv;
+            }
+
+            // Download helper (for CSV)
+            function download(filename, text) {
+                var element = document.createElement("a");
+                element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+                element.setAttribute("download", filename);
+                element.style.display = "none";
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
+
+            // Trigger CSV download
+            function downloadCSV() {
+                download("latin_square.csv", generateCSV());
+            }
+
+            $(document).ready(function () {
+                // Set initial default conditions (A, B, C, ... or 1, 2, ...)
+                function setInitialConditions() {
+                    var squareSize = parseInt($("#square-size-input").val(), 10);
+                    var useLetters = squareSize <= 26;
+                    conditions = [];
+                    for (var i = 0; i < squareSize; ++i) {
+                        conditions.push(useLetters ? String.fromCharCode("A".charCodeAt(0) + i) : "" + (i + 1));
+                    }
+                }
+
+                // Update table when size changes
+                function updateSquareSize() {
+                    var squareSize = parseInt($("#square-size-input").val(), 10);
+                    setInitialConditions();
+                    // Show/hide warning for odd sizes
+                    $("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block");
+                    generateModel();
+                    createTable();
+                }
+
+                // Bind update handler
+                $("#square-size-input").change(updateSquareSize);
+                // Initialize with 6 conditions
+                $("#square-size-input").val(6).trigger("change");
+            });
+        </script>
+    </body>
 </html>
