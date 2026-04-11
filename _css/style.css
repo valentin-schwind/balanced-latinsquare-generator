@@ -64,8 +64,10 @@ p {
 }
 
 .header-logo {
-    width: 72px;
-    height: auto;
+    width: 72px !important;
+    min-width: 72px;
+    max-width: 72px;
+    height: auto !important;
     display: inline-block;
 }
 
