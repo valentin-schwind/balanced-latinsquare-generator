@@ -1,111 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <!-- Required meta tags -->
-        <meta charset="iso-8859-1" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+        <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="author" content="Valentin Schwind" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/bootstrap-table.min.css" />
-        <link rel="stylesheet" href="css/bootstrap-icons.css" />
-        <link rel="stylesheet" href="css/style.css" />
+
+        <link rel="stylesheet" href="_css/bootstrap.min.css" />
+        <link rel="stylesheet" href="_css/bootstrap-table.min.css" />
+        <link rel="stylesheet" href="_css/bootstrap-icons.css" />
+        <link rel="stylesheet" href="_css/style.css" />
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
         <meta property="og:site_name" content="Methods and Measures" />
         <title>Balanced Latin Square Generator</title>
     </head>
-    <body class="transparent">
-        <script src="js/countryList.js"></script>
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
-        <script src="js/jquery-cookie-plugin/jquery.cookie.js"></script>
-        <script src="js/jquery-validation/jquery.validate.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/seedrandom.min.js"></script>
-        <script src="js/html2pdf.bundle.min.js"></script>
+    <body>
+        <script src="_js/countryList.js"></script>
+        <script src="_js/jquery-3.3.1.min.js"></script>
+        <script src="_js/jquery-ui.js"></script>
+        <script src="_js/jquery-cookie-plugin/jquery.cookie.js"></script>
+        <script src="_js/jquery-validation/jquery.validate.js"></script>
+        <script src="_js/popper.min.js"></script>
+        <script src="_js/bootstrap.min.js"></script>
+        <script src="_js/seedrandom.min.js"></script>
+        <script src="_js/html2pdf.bundle.min.js"></script>
 
-        <div id="mainFrame" class="vertical-center">
-            <div class="whiteBox container rounded container mt-4 container-fluid">
-                <div class="row">
-                    <div class="col mt-1 mb-1">
-                        <div class="float-end">
-                            <a href="https://hci-studies.org/"><img src="img/frankfurtlogo.png" class="float-end mr-3" width="140px" alt="Logo" /></a>
+        <div class="page-shell">
+            <div id="mainFrame" class="container page-card rounded">
+                <header class="page-header">
+                    <div class="logo-row">
+                        <a href="https://hci-studies.org/" target="_blank" rel="noopener noreferrer">
+                            <img src="_img/hdmlogo.png" class="header-logo" alt="HdM Logo" />
+                        </a>
+                    </div>
+
+                    <p class="kicker"><a href="https://hci-studies.org/" target="_blank" rel="noopener noreferrer">HOME</a> &gt;&gt; HCI User Studies Toolkit</p>
+
+                    <h1>Balanced Latin Square Generator</h1>
+
+                    <p class="intro">
+                        A <a href="https://en.wikipedia.org/wiki/Latin_square" target="_blank" rel="noopener noreferrer">Latin square</a> is
+                        <span class="font-italic">"an n &times; n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>. Latin squares help reduce order effects in empirical
+                        studies with multiple conditions by creating a balanced ordering so each condition appears in every position as evenly as possible.
+                    </p>
+                </header>
+
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2>Configuration</h2>
+                    </div>
+                    <p class="section-intro">Choose the number of conditions for your study. For odd sizes, the balanced design needs twice as many rows.</p>
+
+                    <div class="config-panel">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <label for="square-size-input" class="form-label field-label">Number of conditions / Square size</label>
+                            </div>
+                            <div class="col-md-3 col-sm-5">
+                                <div class="input-group flex-nowrap square-size-group">
+                                    <button class="btn btn-outline-secondary square-size-stepper" type="button" id="square-size-decrease" aria-label="Decrease square size">-</button>
+                                    <input class="form-control" type="number" min="2" max="200" value="6" id="square-size-input" />
+                                    <button class="btn btn-outline-secondary square-size-stepper" type="button" id="square-size-increase" aria-label="Increase square size">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-8">
+                                <p id="odd-size-warning" class="warning-text">Odd sizes require twice as many rows to be balanced.</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-1 mb-1">
-                    <div class="col-md-12">
-                        <h2>Balanced Latin Square Generator</h2>
-                    </div>
-                </div>
-                <hr class="mt-2 mb-2" />
-                <p>
-                    A <a href="https://en.wikipedia.org/wiki/Latin_square" target="_blank">Latin square</a> is
-                    <span class="font-italic">"an n &times; n array filled with n different symbols, each occurring exactly once in each row and exactly once in each column"</span>.
-                </p>
-                <p>
-                    Latin squares are useful to reduce order-effects when designing empirical experiments with multiple conditions. For example, in an experimental design comparing a prototype A vs B vs C, if all participants test A first,
-                    then B, then C, we might observe poor results for C because of participants' fatigue and not because C is worse than A or B. Instead, we can order conditions based on a Latin square like this:
-                </p>
-                <hr class="mt-2 mb-2" />
-                <div class="form-group row mt-2 mb-2">
-                    <label for="square-size-input" class="col-4 col-form-label">Number of conditions / Square size</label>
-                    <div class="col-2">
-                        <input class="form-control" type="number" min="2" value="4" id="square-size-input" />
-                    </div>
-                    <div class="col-6">
-                        <label id="odd-size-warning" for="square-size-input" class="text-danger col-form-label">Odd sizes require twice as many rows to be balanced</label>
-                    </div>
-                </div>
-                <hr class="mt-2 mb-2" />
-                <div class="row mt-2 mb-2">
-                    <div class="col-md-12">
-                        <table id="latin-square-table" style="text-align: center" class="table table-hover table-bordered">
-                            <thead id="latin-square-head"></thead>
-                            <tbody id="latin-square-body"></tbody>
-                        </table>
-                    </div>
-                </div>
+                </section>
 
-                <div class="row mt-2 mb-2">
-                    <div class="col-md-12">Note: You can quickly insert your conditions using copy-paste (separated by lines) | <a href="javascript:downloadCSV();">Download .csv</a></div>
-                </div>
-                <hr class="mt-2 mb-2" />
-                <div class="row mt-2 mb-2">
-                    <div class="col-md-12">
-                        <p>A condition will precede another exactly once (or twice, if the number of conditions is odd). This page uses the method that James V. Bradley proposed and mathematically proved [1].</p>
-                        <p>
-                            <i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i>
-                        </p>
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2>Balanced Square</h2>
                     </div>
-                </div>
-                <hr class="mt-2 mb-2" />
-                <div class="row mt-2 mb-2 itemRow" id="githublink">
-                    <div class="col">
-                        <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank">Source code at github</a>, Original <a href="https://cs.uwaterloo.ca/~dmasson/tools/latin_square/" target="_blank">tool</a> and
-                        source code by Damien Masson <a href="https://cs.uwaterloo.ca/~dmasson/" target="_blank">https://cs.uwaterloo.ca/~dmasson/</a>
+                    <p class="section-intro">Edit the first row directly or paste a line-separated list of condition names into any input field.</p>
+
+                    <div class="table-card">
+                        <div class="table-responsive">
+                            <table id="latin-square-table" class="table table-hover table-bordered latin-square-table">
+                                <thead id="latin-square-head"></thead>
+                                <tbody id="latin-square-body"></tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-2">
-                        <p>
-                            <a href="https://valentin-schwind.de">Prof. Dr. Valentin Schwind</a>. University of Applied Sciences Frankfurt. No liability for external links, correctness, completeness and up-todateness of any content. Site
-                            visits might result in storing of anonymized data (date, time, page viewed). Utilization at the own risk of the user. Data can be stored on the computers to facilitate the user's website access. Contribute
-                            <a href="https://github.com/stars/valentin-schwind/lists/hci-user-studies-toolkit">here</a>.
-                        </p>
-                        <p>
-                            <strong>Find/cite the publication of the toolkit here: </strong><br /><code
-                                >Valentin Schwind, Stefan Resch, and Jessica Sehrt. 2023. The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction. In
-                                Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA '23), April 23-28, 2023, Hamburg, Germany. ACM, New York, NY, USA, 7 pages.
-                                <a href="https://doi.org/10.1145/3544549.3585890" target="_blank">https://doi.org/10.1145/3544549.3585890</a></code
-                            >
-                        </p>
+
+                    <div class="resource-list helper-list">
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3>CSV Export</h3>
+                                <p>Download the current balanced square as a CSV file for further use in your study materials.</p>
+                            </div>
+                            <div class="resource-actions">
+                                <a href="javascript:downloadCSV();" class="btn btn-primary" role="button">Download .csv</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2>Method</h2>
+                    </div>
+                    <p class="section-intro">A condition will precede another exactly once, or twice for odd numbers of conditions, based on Bradley's balanced Latin square construction.</p>
+
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3>Reference</h3>
+                                <p><i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2>Source Code</h2>
+                    </div>
+                    <p class="section-intro">Project repository and the original tool that inspired this version.</p>
+
+                    <div class="resource-list">
+                        <div class="resource-item" id="githublink">
+                            <div class="resource-text">
+                                <h3>Balanced Latin Square Generator Repository</h3>
+                                <p>
+                                    <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank" rel="noopener noreferrer">Source code on GitHub</a>. Based on an earlier Latin Square tool by Damien Masson.
+                                </p>
+                            </div>
+                            <div class="resource-actions">
+                                <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank" rel="noopener noreferrer" class="btn btn-primary" role="button">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="site-footer">
+                    <p>
+                        <a href="https://valentin-schwind.de" target="_blank" rel="noopener noreferrer">Prof. Dr. Valentin Schwind</a>. University of Applied Sciences Frankfurt. No liability for external links, correctness, completeness
+                        and up-to-dateness of any content. Site visits might result in storing anonymized data (date, time, page viewed). Utilization at the user's own risk. Data can be stored on the computers to facilitate the user's
+                        website access. Contribute <a href="https://github.com/stars/valentin-schwind/lists/hci-user-studies-toolkit" target="_blank" rel="noopener noreferrer">here</a>.
+                    </p>
+                    <p>
+                        <strong>Find/cite the publication of the toolkit here:</strong><br />
+                        <code>
+                            Valentin Schwind, Stefan Resch, and Jessica Sehrt. 2023. The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction. In Extended
+                            Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA '23), April 23-28, 2023, Hamburg, Germany. ACM, New York, NY, USA, 7 pages.
+                            <a href="https://doi.org/10.1145/3544549.3585890" target="_blank" rel="noopener noreferrer">https://doi.org/10.1145/3544549.3585890</a>
+                        </code>
+                    </p>
+                </footer>
             </div>
         </div>
 
@@ -243,18 +288,47 @@
 
             $(document).ready(function () {
                 // Set initial default conditions (A, B, C, ... or 1, 2, ...)
+                function defaultConditionLabel(index, totalSize) {
+                    var label = "";
+                    var value = index;
+
+                    do {
+                        label = String.fromCharCode("A".charCodeAt(0) + (value % 26)) + label;
+                        value = Math.floor(value / 26) - 1;
+                    } while (value >= 0);
+
+                    return label;
+                }
+
                 function setInitialConditions() {
                     var squareSize = parseInt($("#square-size-input").val(), 10);
-                    var useLetters = squareSize <= 26;
-                    conditions = [];
+                    var previousConditions = conditions.slice();
+                    var nextConditions = [];
+
                     for (var i = 0; i < squareSize; ++i) {
-                        conditions.push(useLetters ? String.fromCharCode("A".charCodeAt(0) + i) : "" + (i + 1));
+                        if (previousConditions[i] !== undefined && previousConditions[i] !== "") {
+                            nextConditions.push(previousConditions[i]);
+                        } else {
+                            nextConditions.push(defaultConditionLabel(i, squareSize));
+                        }
                     }
+
+                    conditions = nextConditions;
                 }
 
                 // Update table when size changes
                 function updateSquareSize() {
-                    var squareSize = parseInt($("#square-size-input").val(), 10);
+                    var input = $("#square-size-input");
+                    var minValue = parseInt(input.attr("min"), 10) || 2;
+                    var maxValue = parseInt(input.attr("max"), 10) || 200;
+                    var squareSize = parseInt(input.val(), 10);
+
+                    if (isNaN(squareSize)) {
+                        squareSize = minValue;
+                    }
+
+                    squareSize = Math.max(minValue, Math.min(maxValue, squareSize));
+                    input.val(squareSize);
                     setInitialConditions();
                     // Show/hide warning for odd sizes
                     $("#odd-size-warning").css("display", squareSize % 2 == 0 ? "none" : "block");
@@ -262,9 +336,27 @@
                     createTable();
                 }
 
+                function changeSquareSize(delta) {
+                    var input = $("#square-size-input");
+                    var currentValue = parseInt(input.val(), 10);
+                    var minValue = parseInt(input.attr("min"), 10) || 2;
+                    var maxValue = parseInt(input.attr("max"), 10) || 200;
+
+                    if (isNaN(currentValue)) {
+                        currentValue = minValue;
+                    }
+
+                    input.val(Math.max(minValue, Math.min(maxValue, currentValue + delta))).trigger("change");
+                }
+
                 // Bind update handler
                 $("#square-size-input").change(updateSquareSize);
-                // Initialize with 6 conditions
+                $("#square-size-decrease").click(function () {
+                    changeSquareSize(-1);
+                });
+                $("#square-size-increase").click(function () {
+                    changeSquareSize(1);
+                });
                 $("#square-size-input").val(6).trigger("change");
             });
         </script>
