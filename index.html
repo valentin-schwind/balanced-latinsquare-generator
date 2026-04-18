@@ -5,6 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="author" content="Valentin Schwind" />
+        <meta
+            name="description"
+            content="Balanced Latin Square Generator for HCI studies, user research, and counterbalanced within-subject experiments. Create balanced condition orders, rename conditions, and export the result as CSV."
+        />
+        <meta
+            name="keywords"
+            content="balanced latin square generator, latin square, counterbalancing, within-subject design, experiment design, hci user studies, study design, condition order, csv export"
+        />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://valentin-schwind.github.io/balanced-latinsquare-generator/" />
 
         <link rel="stylesheet" href="_css/bootstrap.min.css" />
         <link rel="stylesheet" href="_css/bootstrap-table.min.css" />
@@ -12,8 +22,50 @@
         <link rel="stylesheet" href="_css/style.css" />
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-        <meta property="og:site_name" content="Methods and Measures" />
-        <title>Balanced Latin Square Generator</title>
+        <meta property="og:site_name" content="HCI User Studies Toolkit" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Balanced Latin Square Generator for Counterbalancing Experiments" />
+        <meta
+            property="og:description"
+            content="Generate balanced Latin squares for within-subject studies, counterbalance experimental conditions, and export the sequence as CSV."
+        />
+        <meta property="og:url" content="https://valentin-schwind.github.io/balanced-latinsquare-generator/" />
+        <meta property="og:image" content="https://valentin-schwind.github.io/balanced-latinsquare-generator/_img/square.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Balanced Latin Square Generator for Counterbalancing Experiments" />
+        <meta
+            name="twitter:description"
+            content="Create balanced condition orders for within-subject experiments, user studies, and HCI research."
+        />
+        <meta name="twitter:image" content="https://valentin-schwind.github.io/balanced-latinsquare-generator/_img/square.jpg" />
+
+        <title>Balanced Latin Square Generator for Counterbalancing Experiments</title>
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Balanced Latin Square Generator",
+                "url": "https://valentin-schwind.github.io/balanced-latinsquare-generator/",
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "Any",
+                "browserRequirements": "Requires JavaScript and a modern web browser.",
+                "description": "A free web app for generating balanced Latin squares to counterbalance condition order in HCI studies, user research, and within-subject experiments.",
+                "keywords": "balanced latin square, counterbalancing, within-subject experiment, HCI user studies, study design, condition order",
+                "isAccessibleForFree": true,
+                "image": "https://valentin-schwind.github.io/balanced-latinsquare-generator/_img/square.jpg",
+                "author": {
+                    "@type": "Person",
+                    "name": "Valentin Schwind",
+                    "url": "https://valentin-schwind.de"
+                },
+                "publisher": {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Stuttgart Media University",
+                    "url": "https://www.hdm-stuttgart.de/"
+                }
+            }
+        </script>
     </head>
     <body>
         <script src="_js/countryList.js"></script>
@@ -48,7 +100,7 @@
 
                 <section class="content-section">
                     <div class="section-heading">
-                        <h2>Configuration</h2>
+                        <h2><i class="bi bi-sliders2 section-icon" aria-hidden="true"></i>Configuration</h2>
                     </div>
                     <p class="section-intro">Choose the number of conditions for your study. For odd sizes, the balanced design needs twice as many rows.</p>
 
@@ -73,7 +125,7 @@
 
                 <section class="content-section">
                     <div class="section-heading">
-                        <h2>Balanced Square</h2>
+                        <h2><i class="bi bi-table section-icon" aria-hidden="true"></i>Balanced Square</h2>
                     </div>
                     <p class="section-intro">Edit the first row directly or paste a line-separated list of condition names into any input field.</p>
 
@@ -89,11 +141,11 @@
                     <div class="resource-list helper-list">
                         <div class="resource-item">
                             <div class="resource-text">
-                                <h3>CSV Export</h3>
+                                <h3><i class="bi bi-download item-icon" aria-hidden="true"></i>CSV Export</h3>
                                 <p>Download the current balanced square as a CSV file for further use in your study materials.</p>
                             </div>
                             <div class="resource-actions">
-                                <a href="javascript:downloadCSV();" class="btn btn-primary" role="button">Download .csv</a>
+                                <a href="javascript:downloadCSV();" class="btn btn-primary" role="button"><i class="bi bi-filetype-csv button-icon" aria-hidden="true"></i>Download .csv</a>
                             </div>
                         </div>
                     </div>
@@ -101,14 +153,42 @@
 
                 <section class="content-section">
                     <div class="section-heading">
-                        <h2>Method</h2>
+                        <h2><i class="bi bi-compass section-icon" aria-hidden="true"></i>What This Tool Helps With</h2>
+                    </div>
+                    <p class="section-intro">This generator is intended for researchers, students, and practitioners who need a quick way to counterbalance condition order in controlled experiments.</p>
+
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-layers item-icon" aria-hidden="true"></i>Counterbalance Experimental Conditions</h3>
+                                <p>Use balanced Latin squares to assign multiple interface, prototype, or task conditions in a way that reduces order effects such as learning, fatigue, and carryover.</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-people item-icon" aria-hidden="true"></i>Support Within-Subject Studies</h3>
+                                <p>The tool is especially useful for within-subject and repeated-measures designs in HCI, UX, psychology, and other empirical research contexts.</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-file-earmark-spreadsheet item-icon" aria-hidden="true"></i>Prepare Study Material Quickly</h3>
+                                <p>Edit condition names directly in the table and export the resulting sequence as CSV to use it in recruiting sheets, lab notes, or experiment scripts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2><i class="bi bi-bezier2 section-icon" aria-hidden="true"></i>Method</h2>
                     </div>
                     <p class="section-intro">A condition will precede another exactly once, or twice for odd numbers of conditions, based on Bradley's balanced Latin square construction.</p>
 
                     <div class="resource-list">
                         <div class="resource-item">
                             <div class="resource-text">
-                                <h3>Reference</h3>
+                                <h3><i class="bi bi-journal-text item-icon" aria-hidden="true"></i>Reference</h3>
                                 <p><i>Bradley, J. V. (1958). Complete counterbalancing of immediate sequential effects in a Latin square design. Journal of the American Statistical Association, 53(282), 525-528.</i></p>
                             </div>
                         </div>
@@ -117,20 +197,46 @@
 
                 <section class="content-section">
                     <div class="section-heading">
-                        <h2>Source Code</h2>
+                        <h2><i class="bi bi-question-circle section-icon" aria-hidden="true"></i>FAQ</h2>
+                    </div>
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-arrow-repeat item-icon" aria-hidden="true"></i>What is a balanced Latin square?</h3>
+                                <p>A balanced Latin square is an ordering scheme in which each condition appears in each position equally often and precedes every other condition equally often.</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-list-ol item-icon" aria-hidden="true"></i>When should I use this generator?</h3>
+                                <p>Use it when all participants experience multiple conditions and you need a principled ordering for prototypes, tasks, stimuli, or interfaces in a repeated-measures study.</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-text">
+                                <h3><i class="bi bi-exclamation-triangle item-icon" aria-hidden="true"></i>Why are odd numbers of conditions different?</h3>
+                                <p>For odd square sizes, a balanced Latin square needs twice as many rows so that immediate sequential effects remain balanced across the full set of assignments.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="content-section">
+                    <div class="section-heading">
+                        <h2><i class="bi bi-code-slash section-icon" aria-hidden="true"></i>Source Code</h2>
                     </div>
                     <p class="section-intro">Project repository and the original tool that inspired this version.</p>
 
                     <div class="resource-list">
                         <div class="resource-item" id="githublink">
                             <div class="resource-text">
-                                <h3>Balanced Latin Square Generator Repository</h3>
+                                <h3><i class="bi bi-github item-icon" aria-hidden="true"></i>Balanced Latin Square Generator Repository</h3>
                                 <p>
                                     <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank" rel="noopener noreferrer">Source code on GitHub</a>. Based on an earlier Latin Square tool by Damien Masson.
                                 </p>
                             </div>
                             <div class="resource-actions">
-                                <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank" rel="noopener noreferrer" class="btn btn-primary" role="button">GitHub</a>
+                                <a href="https://github.com/valentin-schwind/balanced-square-generator" target="_blank" rel="noopener noreferrer" class="btn btn-primary" role="button"><i class="bi bi-box-arrow-up-right button-icon" aria-hidden="true"></i>GitHub</a>
                             </div>
                         </div>
                     </div>

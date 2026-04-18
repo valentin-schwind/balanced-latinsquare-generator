@@ -109,6 +109,33 @@ h3 {
     max-width: none;
 }
 
+.title-icon,
+.section-icon,
+.item-icon,
+.button-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+.title-icon {
+    margin-right: 0.5rem;
+    color: #2563eb;
+}
+
+.section-icon {
+    margin-right: 0.5rem;
+    color: #0f766e;
+}
+
+.item-icon {
+    margin-right: 0.45rem;
+    color: #475569;
+}
+
+.button-icon {
+    margin-right: 0.45rem;
+}
+
 .resource-text p,
 .site-footer p {
     display: block;
@@ -142,6 +169,7 @@ h3 {
 
 .table-card {
     padding: 0;
+    overflow: hidden;
 }
 
 .field-label {
@@ -355,5 +383,24 @@ label.error {
 
     .warning-text {
         margin-top: 0;
+    }
+
+    .config-panel {
+        padding: 16px;
+    }
+
+    .section-heading h2,
+    h1 {
+        line-height: 1.25;
+    }
+
+    .square-size-group {
+        margin-top: 0.35rem;
+    }
+
+    .latin-square-table th,
+    .latin-square-table td {
+        min-width: 72px;
+        padding: 0.55rem;
     }
 }
