@@ -109,12 +109,20 @@ h3 {
     max-width: none;
 }
 
+.icon-sprite {
+    display: none;
+}
+
 .title-icon,
 .section-icon,
 .item-icon,
 .button-icon {
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    flex-shrink: 0;
+    vertical-align: -0.125em;
 }
 
 .title-icon {
