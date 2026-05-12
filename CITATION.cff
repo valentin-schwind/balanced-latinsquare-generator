@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software in academic work, please cite the preferred citation below."
+title: "Balanced Latin Square Generator"
+authors:
+  - family-names: Schwind
+    given-names: Valentin
+license: MIT
+repository-code: "https://github.com/valentin-schwind/balanced-latinsquare-generator"
+url: "https://valentin-schwind.github.io/balanced-latinsquare-generator/"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Schwind
+      given-names: Valentin
+    - family-names: Resch
+      given-names: Stefan
+    - family-names: Sehrt
+      given-names: Jessica
+  title: "The HCI User Studies Toolkit: Supporting Study Designing and Planning for Undergraduates and Novice Researchers in Human-Computer Interaction"
+  year: 2023
+  doi: "10.1145/3544549.3585890"
+  url: "https://doi.org/10.1145/3544549.3585890"
